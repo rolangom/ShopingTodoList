@@ -8,6 +8,8 @@ const { observer, Provider, inject } = mobxReact;
 const { BrowserRouter, Route, Link } = ReactRouterDOM;
 const { Menu, Input, Checkbox, Table, Statistic, Header, Label, Icon, Grid, Button, Segment, Divider, Container } = semanticUIReact;
 
+const HOME_PATH = '/ShoppingTodoList';
+
 const stores = {};
 
 stores.funcs = {};
@@ -452,7 +454,7 @@ const ImageTextDetector = inject('ocrStore')(observer(class extends React.Compon
         <h2>OCR Detector</h2>
         <Segment padded textAlign='center' style={ocrStatus.getCaptureImageStyle(ocrStore.step)}>
           <p>Click on the on the image to load a new one.</p>
-          <img onClick={() => this.fileImg.click()} src="img/no-image.jpg" ref={ref => this.img = ref} /> <br />
+          <img onClick={() => this.fileImg.click()} src={`${HOME_PATH}/img/no-image.jpg`} ref={ref => this.img = ref} /> <br />
           <input style={{ display: 'none' }} type="file" accept="image/*" capture="camera" ref={ref => this.fileImg = ref} onChange={this._onChangeFile} /> <br />
           <Button.Group>
             <Button
@@ -519,7 +521,7 @@ const NewItem = inject(stores => ({ store: stores.item }))(observer(({ store, hi
         content="Load from Image"
         basic
         color='blue'
-        onClick={() => store.loadFromImageView().then(() => history.push('/image'))}
+        onClick={() => store.loadFromImageView().then(() => history.push(`${HOME_PATH}/image`))}
       />
       <Divider />
       <div>
@@ -676,7 +678,7 @@ const ItemList = inject(stores => ({ store: stores.itemList }))(observer(({ stor
             <Button
               icon
               primary
-              onClick={() => store.addView().then(() => history.push(`/items/new`))}
+              onClick={() => store.addView().then(() => history.push(`${HOME_PATH}/items/new`))}
             ><Icon name="add" /></Button>
           </Table.HeaderCell>
         </Table.Row>
@@ -685,7 +687,7 @@ const ItemList = inject(stores => ({ store: stores.itemList }))(observer(({ stor
       {store.item.items.map((it, i) => (
         <ItemListRow
           key={i} index={i} item={it}
-          edit={() => store.editView(i).then(() => history.push(`/items/${i}`))}
+          edit={() => store.editView(i).then(() => history.push(`${HOME_PATH}/items/${i}`))}
           setDone={done => store.setItemDone(i, done)}
           remove={() => store.removeItem(i)}
         />
@@ -711,14 +713,14 @@ const TopMenu = ({ history, match }) => (
     <Menu.Item header>Shop TO-DO List</Menu.Item>
     <Menu.Item
       name="list"
-      active={history.location.pathname === '/'}
-      onClick={() => history.replace('/')}
+      active={history.location.pathname === `${HOME_PATH}/`}
+      onClick={() => history.replace(`${HOME_PATH}/`)}
     >List</Menu.Item>
 
     <Menu.Item
       name="config"
-      active={history.location.pathname === '/config'}
-      onClick={() => history.replace('/config')}
+      active={history.location.pathname === `${HOME_PATH}/config`}
+      onClick={() => history.replace(`${HOME_PATH}/config`)}
     >Config</Menu.Item>
   </Menu>
 );
@@ -735,10 +737,10 @@ class Main extends React.Component {
           <div>
             <Route path="/" component={TopMenu} />
 
-            <Route exact path="/" component={ItemList} />
-            <Route exact path="/config" component={Config} />
-            <Route exact path="/items/:id" component={NewItem} />
-            <Route exact path="/image" component={ImageTextDetector} />
+            <Route exact path={`${HOME_PATH}/`} component={ItemList} />
+            <Route exact path={`${HOME_PATH}/config`} component={Config} />
+            <Route exact path={`${HOME_PATH}/items/:id`} component={NewItem} />
+            <Route exact path={`${HOME_PATH}/image`} component={ImageTextDetector} />
           </div>
         </BrowserRouter>
       </Provider>
