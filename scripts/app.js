@@ -533,8 +533,9 @@ const NewItem = inject(stores => ({ store: stores.item }))(observer(({ store, hi
       <div>
         <Input fluid type="number" label="Price" name="price" size="large" value={store.item.price} onChange={e => store.onChange(e)} />
       </div>
+      <Divider hidden />
       <div>
-        <Checkbox label="Is Done?"  name="isDone" size="large" defaultChecked={store.item.isDone} onChange={(e, data) => store.onChangeEv(e.target.name, data.checked)} />
+        <Checkbox label="Is Done?"  name="isDone" size="large" defaultChecked={store.item.isDone} onChange={(e, data) => store.onChangeEv('isDone', data.checked)} />
       </div>
       <Divider />
       <Button.Group>
@@ -702,7 +703,6 @@ const Stat = ({ title, value }) => (
   <Table.Row>
     <Table.HeaderCell colSpan={4}><Header as="h3" textAlign='right'>{title}</Header></Table.HeaderCell>
     <Table.HeaderCell colSpan={2}><Header as="h3" textAlign='right'>{value}</Header></Table.HeaderCell>
-    {/*<Table.HeaderCell />*/}
   </Table.Row>
 );
 
